@@ -41,7 +41,6 @@ def auto_pading(data_numpy, size, random_pad=False):
 
 
 def random_choose(data_numpy, size, auto_pad=True):
-    # input: C,T,V,M 随机选择其中一段，不是很合理。因为有0
     C, T, V, M = data_numpy.shape
     if T == size:
         return data_numpy
@@ -103,7 +102,6 @@ def random_move(data_numpy,
 
 
 def random_shift(data_numpy):
-    # input: C,T,V,M 偏移其中一段
     C, T, V, M = data_numpy.shape
     data_shift = np.zeros(data_numpy.shape)
     valid_frame = (data_numpy != 0).sum(axis=3).sum(axis=2).sum(axis=0) > 0
