@@ -44,7 +44,7 @@ except ImportError:
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = BASE_DIR
-DEFAULT_CONFIG = os.path.join(REPO_ROOT, "config", "train_gmamba_origin.yaml")
+DEFAULT_CONFIG = os.path.join(REPO_ROOT, "config", "train_gmamba.yaml")
 for path in (BASE_DIR, REPO_ROOT):
     if path not in sys.path:
         sys.path.insert(0, path)
