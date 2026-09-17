@@ -524,8 +524,6 @@ class DynamicMultiTaskHead(nn.Module):
                 aff_vec = F.smooth_l1_loss(aff_pred, feature, reduction="none").mean(dim=1)
             else:
                 aff_vec = F.mse_loss(aff_pred, feature, reduction="none").mean(dim=1)
-
-        # 固定损失权重
         cls_weight = 0.7
         aff_weight = 0.3
         weights = logits.new_tensor([cls_weight, aff_weight]).view(1, 2).expand(logits.size(0), 2)
