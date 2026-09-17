@@ -1,0 +1,119 @@
+work_dir: ./work_dir/lr_test
+model_saved_name: ./runs/lr_test
+
+# feeder
+seed: 4
+feeder: feeders.feeder_same_combine.Feeder
+num_worker: 8
+
+train_feeder_args:
+  random_choose: true
+  random_move: true
+  window_size: 48
+  data_p_path: ./datasets/emotion_gait/train_joint.npy
+  data_m_path: ./datasets/emotion_gait/train_movement.npy
+  label_path: ./datasets/emotion_gait/train_label.pkl
+  feature_path: ./datasets/emotion_gait/train_affective.npy
+  debug: false
+  normalization: false
+
+test_feeder_args:
+  data_p_path: ./datasets/emotion_gait/test_joint.npy
+  data_m_path: ./datasets/emotion_gait/test_movement.npy
+  label_path: ./datasets/emotion_gait/test_label.pkl
+  feature_path: ./datasets/emotion_gait/test_affective.npy
+  normalization: false
+  debug: false
+
+# model
+save_model: false
+model: model.gmamba_test.GMamba
+model_args:
+  num_class: 4
+  num_point: 16
+  in_channels_p: 3
+  in_channels_m: 8
+  stage_dims:
+  - 64
+  - 64
+  - 128
+  - 256
+  stage_strides:
+  - 1
+  - 1
+  - 2
+  - 1
+  fusion_after:
+  - 2
+  - 4
+  aff_dim: 1488
+  drop_out: 0.25
+  mamba_d_state: 16
+  mamba_d_conv: 4
+  mamba_expand: 2
+  use_mamba_ssm: true
+  fusion_hidden_ratio: 0.5
+  ffn_ratio: 2.0
+  adaptive_weight_hidden_ratio: 0.25
+  adaptive_weight_drop: 0.05
+  head_hidden_ratio: 0.5
+  loss_gate_hidden_ratio: 0.25
+  aff_loss_type: MSE
+  aff_loss_ramp_epochs: 15
+  loss_min_cls_weight: 0.7
+  loss_min_aff_weight: 0.2
+  loss_entropy_weight: 0
+  class_loss_weights:
+  - 0.55
+  - 1.05
+  - 1.35
+  - 1.75
+  class_loss_smoothing: 0.05
+  mamba_channel_ratio: 0.5
+  mamba_mtm_kernel_sizes:
+  - 7
+  use_emotion_feature: true
+  emotion_feature_dim: 1488
+  emotion_time_steps: 48
+  emotion_hidden_ratio: 0.125
+  emotion_init_scale: 0.02
+  use_part_gate: true
+  part_gate_hidden_ratio: 0.25
+  part_gate_init_scale: 0.08
+  use_st_attention_pool: true
+  pool_hidden_ratio: 0.2
+  use_layer_contrastive: true
+  contrastive_weight: 0.1
+  contrastive_stage_weights:
+  - 0.1
+  - 0.2
+  - 0.5
+  - 1.0
+  contrastive_h_channel: 256
+  contrastive_alp: 0.125
+  contrastive_tmp: 0.125
+  contrastive_mom: 0.9
+  contrastive_pred_threshold: 0.0
+  contrastive_use_p_map: true
+  contrastive_n_person: 1
+
+# optim
+weight_decay: 0.0015
+base_lr: 0.00075
+step:
+- 30
+- 60
+- 90
+optimizer: AdamW
+warm_up_epoch: 5
+nesterov: false
+
+# training
+device:
+- 0
+batch_size: 16
+test_batch_size: 16
+num_epoch: 120
+export_visuals: false
+export_confusion: true
+export_analysis_data: false
