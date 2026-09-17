@@ -27,7 +27,7 @@ test_feeder_args:
 
 # model
 save_model: false
-model: model.gmamba_test.GMamba
+model: model.gmamba.GMamba
 model_args:
   num_class: 4
   num_point: 16
