@@ -203,60 +203,8 @@ work_dir/
 |-- main.py           # Backup of the entry script
 `-- gmamba.py         # Backup of the model file
 
-runs/
-|-- train/            # TensorBoard training events, when tensorboardX is installed
-|-- val/              # TensorBoard validation events
-|-- best_PG_DNDT_CSTA.pt
-|-- confusion/
-|   |-- confusion_best.npz
-|   |-- confusion_best_raw.csv
-|   |-- confusion_best_normalized.csv
-|   |-- confusion_best_classification_results.csv
-|   `-- confusion_best_summary.txt
-|-- visuals/          # Created when export_visuals is enabled
-`-- analysis_data/    # Created when export_analysis_data is enabled
-```
 
-The confusion-matrix export contains accuracy, precision, recall, F1,
-G-mean, Kappa, sample indices, true labels, predicted labels, logits, and
-class probabilities.
 
-To enable TensorBoard logging:
-
-```bash
-pip install tensorboardX
-tensorboard --logdir ./runs/lr_test
-```
-
-## Development Checks
-
-Check Python syntax:
-
-```bash
-python -m py_compile main.py model/gmamba.py model/loss_fusion_modules.py feeders/feeder_emotion_gait.py feeders/tools.py
-```
-
-Check PyTorch and CUDA:
-
-```bash
-python -c "import torch; print(torch.__version__); print(torch.cuda.is_available()); print(torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'CPU')"
-```
-
-## Notes
-
-1. Run commands from the project root so that the relative dataset paths in
-   the configuration resolve correctly.
-2. With `num_point=16`, the model uses the Emotion-Gait-specific joint
-   topology. Other joint counts use a fallback chain topology.
-3. `emotion_feature_dim` must match the flattened dimension of the affective
-   feature files. The provided data uses 1488.
-4. The default `main.py` parser points to
-   `config/train_gmamba_origin.yaml`, which is not included in this
-   repository. Always pass `--config config/train_gmamba.yaml`.
-5. The visualization and stage-analysis exports are optional and disabled in
-   the provided configuration. Enable them only after confirming that the
-   corresponding intermediate outputs are available in the selected model
-   implementation.
 
 ## License and Citation
 
