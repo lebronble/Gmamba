@@ -1,5 +1,5 @@
-work_dir: ./work_dir/lr_test
-model_saved_name: ./runs/lr_test
+work_dir: ./work_dir/gmamba
+model_saved_name: ./runs/gmamba
 
 # feeder
 seed: 4
