@@ -1,3 +1,3 @@
-from . import feeder_emotion_gait
+from . import feeder_same_combine
 
-__all__ = ["feeder_emotion_gait"]
+__all__ = ["feeder_same_combine"]
